@@ -1,6 +1,6 @@
 {
-  "name": "ng-imgcache",
-  "version": "1.0.1",
+  "name": "ng-imgcache-ionic",
+  "version": "1.2.0",
   "description": "Angular 2+ module to cache images for offline use.",
   "module": "dist/index.js",
   "main": "dist/index.js",
@@ -42,6 +42,6 @@
     "zone.js": "^0.8.10"
   },
   "dependencies": {
-    "imgcache.js": "1.1.1"
+    "@chrisben/imgcache.js": "2.1.0"
   }
 }

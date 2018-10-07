@@ -20,12 +20,13 @@ export class ImgCacheDirective {
         // Ionics webview has a URL normalization method (#223)
         var ionicNormalizer =
           window.Ionic &&
-          ((window.Ionic.WebView && window.Ionic.WebView.convertFileSrc) ||
-            window.Ionic.normalizeURL);
+          window.Ionic.WebView &&
+          window.Ionic.WebView.convertFileSrc;
+        console.warn("typeof ionicNormalizer", typeof ionicNormalizer);
         if (typeof ionicNormalizer === "function") {
           cached = ionicNormalizer(cached);
         }
-
+        console.warn("cached", cached);
         this.renderer.setAttribute(this.el.nativeElement, "src", cached);
       });
     }

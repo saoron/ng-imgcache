@@ -42,6 +42,6 @@
     "zone.js": "^0.8.10"
   },
   "dependencies": {
-    "imgcache.js": "1.1.1"
+    "imgcache.js": "2.1.0"
   }
 }

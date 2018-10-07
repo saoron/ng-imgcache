@@ -1,9 +1,10 @@
-import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, Input, Renderer2 } from "@angular/core";
 
-import { ImgCacheService } from './img-cache.service';
+import { ImgCacheService } from "./img-cache.service";
+declare var window: any;
 
 @Directive({
-  selector: '[img-cache]'
+  selector: "[img-cache]"
 })
 export class ImgCacheDirective {
   constructor(
@@ -12,25 +13,34 @@ export class ImgCacheDirective {
     private renderer: Renderer2
   ) {}
 
-  @Input('img-cache-src')
+  @Input("img-cache-src")
   set src(val) {
-    if(val) {
-      this.imgCache
-        .fetchFromCache(val)
-        .then(cached => {
-          this.renderer.setAttribute(this.el.nativeElement, 'src', cached);
-        });
-    }
-  };
+    if (val) {
+      this.imgCache.fetchFromCache(val).then(cached => {
+        // Ionics webview has a URL normalization method (#223)
+        var ionicNormalizer =
+          window.Ionic &&
+          ((window.Ionic.WebView && window.Ionic.WebView.convertFileSrc) ||
+            window.Ionic.normalizeURL);
+        if (typeof ionicNormalizer === "function") {
+          cached = ionicNormalizer(cached);
+        }
 
-  @Input('img-cache-bg-url')
-  set bgUrl(val) {
-    if(val) {
-      this.imgCache
-        .fetchFromCache(val)
-        .then(cached => {
-          this.renderer.setStyle(this.el.nativeElement, 'background-image', `url('${cached}')`)
-        });
+        this.renderer.setAttribute(this.el.nativeElement, "src", cached);
+      });
     }
-  };
+  }
+
+  @Input("img-cache-bg-url")
+  set bgUrl(val) {
+    if (val) {
+      this.imgCache.fetchFromCache(val).then(cached => {
+        this.renderer.setStyle(
+          this.el.nativeElement,
+          "background-image",
+          `url('${cached}')`
+        );
+      });
+    }
+  }
 }
